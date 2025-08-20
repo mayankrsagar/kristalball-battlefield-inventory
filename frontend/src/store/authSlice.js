@@ -6,6 +6,7 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, { payload: { token } }) => {
       state.token = token;
+      // atob will decode it from base64 to string
       const payload = JSON.parse(atob(token.split(".")[1]));
       state.user = {
         id: payload.id,
