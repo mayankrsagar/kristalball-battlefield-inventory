@@ -1,15 +1,22 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-import { toast } from "react-hot-toast";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { useLoginMutation } from "../features/auth/authApi";
-import { setCredentials } from "../store/authSlice";
+import {
+  EyeIcon,
+  EyeSlashIcon,
+} from '@heroicons/react/24/outline';
+
+import { useLoginMutation } from '../features/auth/authApi';
+import { setCredentials } from '../store/authSlice';
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
+
   const [login, { isLoading }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +40,7 @@ export default function LoginPage() {
         className="w-full max-sm p-6 bg-white rounded-xl shadow-lg"
       >
         <h1 className="text-2xl font-bold mb-6 text-center">Log In</h1>
+
         <input
           type="email"
           placeholder="Email"
@@ -41,14 +49,30 @@ export default function LoginPage() {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-4 p-3 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+
+        {/* Password with eye */}
+        <div className="relative mb-4">
+          <input
+            type={showPwd ? "text" : "password"}
+            placeholder="Password"
+            className="w-full p-3 pr-10 border rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500"
+            onClick={() => setShowPwd(!showPwd)}
+          >
+            {showPwd ? (
+              <EyeSlashIcon className="w-5 h-5" />
+            ) : (
+              <EyeIcon className="w-5 h-5" />
+            )}
+          </button>
+        </div>
+
         <button
           type="submit"
           disabled={isLoading}
@@ -56,12 +80,6 @@ export default function LoginPage() {
         >
           {isLoading ? "Logging in…" : "Login"}
         </button>
-        <p className="text-center text-sm mt-4">
-          Don’t have an account?{" "}
-          <Link to="/register" className="text-blue-600 underline">
-            Register
-          </Link>
-        </p>
       </form>
     </div>
   );

@@ -1,5 +1,5 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 export default function HomePage() {
   const { token, user } = useSelector((state) => state.auth);
@@ -38,12 +38,12 @@ export default function HomePage() {
           >
             Login
           </Link>
-          <Link
+          {/* <Link
             to="/register"
             className="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold transition"
           >
             Register
-          </Link>
+          </Link> */}
         </div>
       )}
     </div>
